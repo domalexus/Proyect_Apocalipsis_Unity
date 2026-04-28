@@ -65,11 +65,11 @@ public class Player_Movement_Component : MonoBehaviour
         float XRounded = Mathf.Round(X * 10) / 10;
         float YRounded = Mathf.Round(Y * 10) / 10;
 
-        if(XRounded > 0.5) XRounded = 1f;
-        if(YRounded > 0.5) YRounded = 1f;
-
-        if(XRounded < -0.5) XRounded = -1f;
-        if(YRounded < -0.5) YRounded = -1f;
+        //if(XRounded > 0.5) XRounded = 1f;
+        //if(YRounded > 0.5) YRounded = 1f;
+//
+        //if(XRounded < -0.5) XRounded = -1f;
+        //if(YRounded < -0.5) YRounded = -1f;
 
         LastX = XRounded;
         LastY = YRounded;
