@@ -76,7 +76,7 @@ public class Player_Movement_Component : MonoBehaviour
 
         AnimatorComp.SetFloat("LastX", XRounded);
         AnimatorComp.SetFloat("LastY", YRounded);
-        print($"X: {XRounded} Y: {YRounded}");
+        //print($"X: {XRounded} Y: {YRounded}");
         
         
     }

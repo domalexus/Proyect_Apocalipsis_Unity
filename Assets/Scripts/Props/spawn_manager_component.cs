@@ -1,21 +1,12 @@
 using UnityEngine;
 
-public class spawn_manager_component : MonoBehaviour
+public class spawn_manager_component : MonoBehaviour//probablemente este componente no usaremos
 {
-    public SpriteRenderer SrpiteRenderComp;
-    private damageable_component DamageableComp; //usaremos esto para cuando se instancie pasarle el sprite rendered
+    public SpriteRenderer SpriteRendererComp;//usaremos esto para cuando se instancie pasarle el sprite rendered
+    private damageable_component DamageableComp; // probablemente no usar   
     void Awake()
     {
-        
+        SpriteRendererComp = GetComponent<SpriteRenderer>();
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
