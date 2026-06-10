@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: CurrentHealth
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: enableKnockback
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1876468445951263522, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
       propertyPath: m_Name
       value: barrel_prop
