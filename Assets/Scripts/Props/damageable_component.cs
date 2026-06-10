@@ -25,9 +25,9 @@ public class damageable_component : MonoBehaviour
     [SerializeField] private float knockbackForce = 5f;
     [SerializeField] private Rigidbody2D rb2D;
 
-    // Sistema interno
-    private float lastDamageTime;
-    private Coroutine regenCoroutine;
+    
+    private healthbar_controller_component healthBar;
+
 
     // Eventos
     public event Action<float> OnDamageTaken; // Envía la cantidad de daño
@@ -46,22 +46,12 @@ public class damageable_component : MonoBehaviour
 
     private void Awake()
     {
+        healthBar = GetComponentInChildren<healthbar_controller_component>();
         currentHealth = maxHealth;
-        lastDamageTime = -regenDelay; // Permite regeneración inmediata si está habilitada
+        
+        UpdateHealthBar();
     }
 
-    private void OnEnable()
-    {
-        if (maxHealthRegeneration > 0f)
-        {
-            StartRegeneration();
-        }
-    }
-
-    private void OnDisable()
-    {
-        StopRegeneration();
-    }
 
     /// <summary>
     /// Aplica daño al objeto. Retorna la cantidad de daño real aplicado.
@@ -75,7 +65,6 @@ public class damageable_component : MonoBehaviour
         float actualDamage = damageAmount * (1f - damageResistance);
         
         currentHealth -= actualDamage;
-        lastDamageTime = Time.time;
 
         // Evitar salud negativa
         if (currentHealth < 0f)
@@ -83,16 +72,13 @@ public class damageable_component : MonoBehaviour
 
         OnDamageTaken?.Invoke(actualDamage);
         OnHealthChanged?.Invoke(currentHealth);
+        UpdateHealthBar();
 
         // Aplicar knockback si está habilitado
         if (enableKnockback && rb2D != null)
         {
             ApplyKnockback();
         }
-
-        // Detener regeneración cuando recibe daño
-        if (regenCoroutine != null)
-            StopRegeneration();
 
         // Verificar muerte
         if (IsDead)
@@ -117,6 +103,7 @@ public class damageable_component : MonoBehaviour
         float actualHealed = currentHealth - previousHealth;
         OnHealed?.Invoke(actualHealed);
         OnHealthChanged?.Invoke(currentHealth);
+        UpdateHealthBar();
 
         if (IsAtFullHealth)
         {
@@ -141,6 +128,7 @@ public class damageable_component : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(newHealth, 0f, maxHealth);
         OnHealthChanged?.Invoke(currentHealth);
+        UpdateHealthBar();
 
         if (IsAtFullHealth)
             OnFullHealth?.Invoke();
@@ -157,6 +145,7 @@ public class damageable_component : MonoBehaviour
         maxHealth = Mathf.Max(newMaxHealth, 1f);
         currentHealth = Mathf.Min(currentHealth, maxHealth);
         OnHealthChanged?.Invoke(currentHealth);
+        UpdateHealthBar();
     }
 
     /// <summary>
@@ -188,44 +177,15 @@ public class damageable_component : MonoBehaviour
         ApplyKnockback(randomDirection);
     }
 
-    private void StartRegeneration()
+    private void UpdateHealthBar()
     {
-        if (regenCoroutine != null)
-            return;
-
-        regenCoroutine = StartCoroutine(RegenerationRoutine());
-    }
-
-    private void StopRegeneration()
-    {
-        if (regenCoroutine != null)
+        if (healthBar != null)
         {
-            StopCoroutine(regenCoroutine);
-            regenCoroutine = null;
+            healthBar.UpdateBar(maxHealth, currentHealth);
         }
     }
 
-    private IEnumerator RegenerationRoutine()
-    {
-        while (IsAlive)
-        {
-            // Esperar el delay después del último daño
-            yield return new WaitUntil(() => Time.time - lastDamageTime >= regenDelay);
-
-            // Regenerar salud
-            while (IsAlive && !IsAtFullHealth && Time.time - lastDamageTime >= regenDelay)
-            {
-                float healAmount = maxHealthRegeneration * regenRate * Time.deltaTime;
-                Heal(healAmount);
-                yield return null;
-            }
-
-            // Si se alcanzó máximo, esperar a recibir daño nuevamente
-            if (IsAtFullHealth)
-                yield return new WaitUntil(() => !IsAtFullHealth);
-        }
-    }
-
+  
     private void Die()
     {
         OnDeath?.Invoke();
@@ -244,10 +204,7 @@ public class damageable_component : MonoBehaviour
 
         SetHealth(reviveHealth);
         
-        if (maxHealthRegeneration > 0f)
-        {
-            StartRegeneration();
-        }
+
     }
 
     // Métodos auxiliares para debugging

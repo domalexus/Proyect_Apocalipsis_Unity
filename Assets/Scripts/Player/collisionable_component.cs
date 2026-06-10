@@ -30,20 +30,18 @@ public class collisionable_component : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Ignorar si está en cooldown
-        if (Time.time - lastCollisionDamageTime < collisionDamageCooldown)
-            return;
+        Debug.Log("Collison prro");
 
         // Detectar colisión con enemigos
-        if (collision.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             HandleEnemyCollision(collision.gameObject);
-            lastCollisionDamageTime = Time.time;
+
         }
         // Detectar colisión con props
-        else if (collision.CompareTag("Prop"))
+        else if (collision.gameObject.CompareTag("Prop"))
         {
             HandlePropCollision(collision.gameObject);
         }
@@ -54,11 +52,12 @@ public class collisionable_component : MonoBehaviour
     /// </summary>
     private void HandleEnemyCollision(GameObject enemy)
     {
+        Debug.Log("Collision enemy");
         // Aplicar daño al jugador
         if (playerDamageComponent != null)
         {
             playerDamageComponent.TakeDamage(damageFromEnemy);
-
+            Debug.Log("Collision enemy take damage");
             if (showDebugInfo)
                 Debug.Log($"¡Golpeado por enemigo! Daño recibido: {damageFromEnemy}");
         }
@@ -76,13 +75,14 @@ public class collisionable_component : MonoBehaviour
     /// </summary>
     private void HandlePropCollision(GameObject prop)
     {
+        Debug.Log("Collision prop");
         // Buscar el componente damageable del prop
         damageable_component propDamage = prop.GetComponent<damageable_component>();
 
         if (propDamage != null)
         {
             propDamage.TakeDamage(damageToProp);
-
+            Debug.Log("Collision prop take damage");
             if (showDebugInfo)
                 Debug.Log($"¡Golpeaste el prop '{prop.name}'! Daño aplicado: {damageToProp}");
         }
@@ -108,11 +108,4 @@ public class collisionable_component : MonoBehaviour
         damageToProp = Mathf.Max(newDamage, 0f);
     }
 
-    /// <summary>
-    /// Establece el cooldown entre daños.
-    /// </summary>
-    public void SetDamageCooldown(float newCooldown)
-    {
-        collisionDamageCooldown = Mathf.Max(newCooldown, 0f);
-    }
 }

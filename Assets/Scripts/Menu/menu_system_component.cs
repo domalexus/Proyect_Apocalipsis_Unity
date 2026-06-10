@@ -3,10 +3,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class menu_system_component : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] bool EsMenuPrincipal = false;
     public void Jugar()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int Multiplicador = 1;
+
+        if (EsMenuPrincipal)
+            Multiplicador = 1;
+
+        if(EsMenuPrincipal == false)
+            Multiplicador = 2;
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + Multiplicador);
     }
 
     public void Salir()
