@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 /// <summary>
 /// Componente modular para manejar daño y salud en cualquier objeto del juego.
 /// Puede ser usado en enemigos, jugador, objetos destructibles, etc.
@@ -65,7 +66,7 @@ public class damageable_component : MonoBehaviour
         float actualDamage = damageAmount * (1f - damageResistance);
         
         currentHealth -= actualDamage;
-
+        
         // Evitar salud negativa
         if (currentHealth < 0f)
             currentHealth = 0f;
@@ -189,7 +190,14 @@ public class damageable_component : MonoBehaviour
     private void Die()
     {
         OnDeath?.Invoke();
-        
+        if(gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);    
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         // Opcional: Desactivar el GameObject después de morir
         // gameObject.SetActive(false);
     }

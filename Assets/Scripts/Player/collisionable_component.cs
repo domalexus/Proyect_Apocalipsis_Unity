@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Componente de colisión del jugador.
@@ -15,25 +16,45 @@ public class collisionable_component : MonoBehaviour
     [SerializeField] private float knockbackStrength = 3f; // Fuerza del knockback al colisionar
     [SerializeField] private bool enableKnockbackFromEnemies = true;
 
+    [Header("Agarre")]
+    [SerializeField] private float maxGrabDistance = 2f; // Distancia máxima para agarrar un prop
+
     [Header("Debug")]
-    [SerializeField] private bool showDebugInfo = false;
+    [SerializeField] private bool showDebugInfo = true;
 
     // Variables internas
     private damageable_component playerDamageComponent;
     private Rigidbody2D playerRb;
     private float lastCollisionDamageTime = -Mathf.Infinity;
+    private GameObject carriedProp;
+    private InputAction grabAction;
 
     private void Awake()
     {
         // Obtener referencias del jugador
         playerDamageComponent = GetComponent<damageable_component>();
         playerRb = GetComponent<Rigidbody2D>();
+        grabAction = InputSystem.actions.FindAction("Grab");
+        grabAction?.Enable();
+    }
+
+    private void Update()
+    {
+        if (grabAction != null && grabAction.WasPressedThisFrame())
+        {
+            if (carriedProp != null)
+            {
+                DropProp();
+            }
+            else
+            {
+                TryGrabProp();
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collison prro");
-
         // Detectar colisión con enemigos
         if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -41,10 +62,55 @@ public class collisionable_component : MonoBehaviour
 
         }
         // Detectar colisión con props
-        else if (collision.gameObject.CompareTag("Prop"))
+        //else if (collision.gameObject.CompareTag("Prop"))
+        //{
+        //    HandlePropCollision(collision.gameObject);
+        //}
+    }
+
+    private void TryGrabProp()
+    {
+        Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, maxGrabDistance);
+        GameObject nearestProp = null;
+        float nearestDistance = maxGrabDistance;
+
+        foreach (Collider2D hit in nearbyColliders)
         {
-            HandlePropCollision(collision.gameObject);
+            if (!hit.CompareTag("Prop"))
+                continue;
+
+            float distanceToProp = Vector2.Distance(transform.position, hit.transform.position);
+            if (distanceToProp < nearestDistance)
+            {
+                nearestDistance = distanceToProp;
+                nearestProp = hit.gameObject;
+            }
         }
+
+        if (nearestProp == null)
+        {
+            if (showDebugInfo)
+                Debug.Log("No hay props cerca para agarrar.");
+            return;
+        }
+
+        carriedProp = nearestProp;
+        carriedProp.transform.SetParent(transform);
+
+        if (showDebugInfo)
+            Debug.Log($"¡Prop agarrado! {carriedProp.name}");
+    }
+
+    private void DropProp()
+    {
+        if (carriedProp == null)
+            return;
+
+        carriedProp.transform.SetParent(null);
+        carriedProp = null;
+
+        if (showDebugInfo)
+            Debug.Log("Prop soltado.");
     }
 
     /// <summary>
@@ -73,24 +139,22 @@ public class collisionable_component : MonoBehaviour
     /// <summary>
     /// Maneja la colisión con un objeto destructible (Prop).
     /// </summary>
-    private void HandlePropCollision(GameObject prop)
-    {
-        Debug.Log("Collision prop");
+    //private void HandlePropCollision(GameObject prop)
+    //{
         // Buscar el componente damageable del prop
-        damageable_component propDamage = prop.GetComponent<damageable_component>();
-
-        if (propDamage != null)
-        {
-            propDamage.TakeDamage(damageToProp);
-            Debug.Log("Collision prop take damage");
-            if (showDebugInfo)
-                Debug.Log($"¡Golpeaste el prop '{prop.name}'! Daño aplicado: {damageToProp}");
-        }
-        else if (showDebugInfo)
-        {
-            Debug.LogWarning($"El prop '{prop.name}' no tiene damageable_component");
-        }
-    }
+        //damageable_component propDamage = prop.GetComponent<damageable_component>();
+        //Debug.Log("collision con prop");
+        //if (propDamage != null)
+        //{
+        //    propDamage.TakeDamage(damageToProp);
+        //    if (showDebugInfo)
+        //        Debug.Log($"¡Golpeaste el prop '{prop.name}'! Daño aplicado: {damageToProp}");
+        //}
+        //else if (showDebugInfo)
+        //{
+        //    Debug.LogWarning($"El prop '{prop.name}' no tiene damageable_component");
+        //}
+    //}
 
     /// <summary>
     /// Configura el daño que recibe del enemigo.

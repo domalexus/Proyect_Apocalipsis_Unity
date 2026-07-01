@@ -17,16 +17,40 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: regenRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: regenDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: canBeHealed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
       propertyPath: CurrentHealth
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: currentHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -105167437548230860, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
       propertyPath: enableKnockback
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1876468445951263522, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
       propertyPath: m_Name
       value: barrel_prop
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876468445951263522, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      propertyPath: m_TagString
+      value: Prop
       objectReference: {fileID: 0}
     - target: {fileID: 7780678148708403416, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
       propertyPath: m_Sprite
@@ -79,10 +103,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1876468445951263522, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8347868860730346968}
   m_SourcePrefab: {fileID: 100100000, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
 --- !u!212 &2029989174305636319 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7780678148708403416, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
   m_PrefabInstance: {fileID: 8633820411014461191}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7916189014031283237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1876468445951263522, guid: 05e3cf46127395642afa42bf450a5879, type: 3}
+  m_PrefabInstance: {fileID: 8633820411014461191}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8347868860730346968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7916189014031283237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1008be7da06325d44b2459b0651f2fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::prop_collisionable_component

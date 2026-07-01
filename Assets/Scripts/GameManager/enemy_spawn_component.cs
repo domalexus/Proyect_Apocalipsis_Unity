@@ -8,6 +8,7 @@ public class enemy_spawn_component : MonoBehaviour
 {
     [Header("Referencias")]
     [SerializeField] private GameObject player;
+    [SerializeField] private AudioSource spawnAudio;
 
     [Header("Zona de Spawn")]
     [SerializeField] private float minX = -20f; // Límite mínimo en X
@@ -82,6 +83,11 @@ public class enemy_spawn_component : MonoBehaviour
         GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
         
         GameObject newEnemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
+
+        if (spawnAudio != null)
+        {
+            spawnAudio.Play();
+        }
         
         // Si el enemigo tiene el componente de comportamiento, asignar el jugador como objetivo
         enemy_behavior_component enemyBehavior = newEnemy.GetComponent<enemy_behavior_component>();
