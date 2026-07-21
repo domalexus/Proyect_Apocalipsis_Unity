@@ -192,7 +192,7 @@ public class damageable_component : MonoBehaviour
         OnDeath?.Invoke();
         if(gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);    
+            SceneManager.LoadScene(0);    
         }
         else
         {

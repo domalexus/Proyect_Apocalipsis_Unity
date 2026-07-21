@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 2272688092520112581}
   - component: {fileID: 7826871677196001978}
   - component: {fileID: 5377132769841292976}
+  - component: {fileID: 2871601526312801228}
   m_Layer: 0
   m_Name: ZombieSmallPrefab
   m_TagString: Enemy
@@ -442,10 +443,10 @@ MonoBehaviour:
   player: {fileID: 0}
   rb2D: {fileID: 2272688092520112581}
   baseSpeed: 3
-  maxSpeed: 5
-  acceleration: 0.5
-  minDistanceToPlayer: 1.5
-  speedReductionFactor: 0.3
+  maxSpeed: 3
+  acceleration: 1.7
+  minDistanceToPlayer: 2
+  speedReductionFactor: 0.1
   showDebugInfo: 0
 --- !u!114 &5377132769841292976
 MonoBehaviour:
@@ -470,4 +471,16 @@ MonoBehaviour:
   enableKnockback: 0
   knockbackForce: 5
   rb2D: {fileID: 0}
-  healthBar: {fileID: 0}
+--- !u!114 &2871601526312801228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8856627502959948433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a28f96833723d647985a89c688e0a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::enemy_damage_component
+  Damage: 6

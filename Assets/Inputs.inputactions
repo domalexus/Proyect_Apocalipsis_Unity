@@ -14,6 +14,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Grab",
+                    "type": "Button",
+                    "id": "a063d050-8ee9-4250-9d1e-4e84bfece11e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "attack",
+                    "type": "Button",
+                    "id": "7b48ab9c-cf12-4ddb-abf2-7b984b643cdd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -126,6 +144,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d9dae1be-9dfa-48ae-8a0b-cdad7382ac4e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5c83458-b88b-4b5a-8eb3-a43f1ca85ad4",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

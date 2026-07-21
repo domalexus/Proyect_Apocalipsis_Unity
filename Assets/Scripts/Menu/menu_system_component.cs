@@ -3,18 +3,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class menu_system_component : MonoBehaviour
 {
-    [SerializeField] bool EsMenuPrincipal = false;
+    [SerializeField] int ScenaParaCargar;
     public void Jugar()
     {
-        int Multiplicador = 1;
-
-        if (EsMenuPrincipal)
-            Multiplicador = 1;
-
-        if(EsMenuPrincipal == false)
-            Multiplicador = 2;
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + Multiplicador);
+    
+        SceneManager.LoadScene(ScenaParaCargar);
     }
 
     public void Salir()

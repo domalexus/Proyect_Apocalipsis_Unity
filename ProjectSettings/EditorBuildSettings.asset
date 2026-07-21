@@ -9,11 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/ScenePerder.unity
     guid: 55303d549bf6fa9409956523a133f1cf
   - enabled: 1
+    path: Assets/Scenes/LEVEL 1.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/LEVEL 2.unity
+    guid: 3f76eb241668dab4799b4fe4cdf174b5
+  - enabled: 1
+    path: Assets/Scenes/LEVEL 3.unity
+    guid: 29b7614a27c83734fa3e223e1b1f3fcf
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: daff40eaad73f2e41a65a055d5aa3b0a
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/SceneGanar.unity
+    guid: e83be123a6b37384a81906151d62b89c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: fae287df5dacf6a4aac7c387fd315350, type: 3}
   m_UseUCBPForAssetBundles: 0

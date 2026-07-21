@@ -9,4 +9,5 @@ public class spawn_manager_component : MonoBehaviour//probablemente este compone
         SpriteRendererComp = GetComponent<SpriteRenderer>();
     }
     
+    
 }

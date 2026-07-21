@@ -8,9 +8,10 @@ using UnityEngine.InputSystem;
 public class collisionable_component : MonoBehaviour
 {
     [Header("Daño")]
-    [SerializeField] private float damageFromEnemy = 10f; // Daño que recibe del enemigo
+
     [SerializeField] private float damageToProp = 5f; // Daño que aplica a props al colisionar
     [SerializeField] private float collisionDamageCooldown = 0.5f; // Cooldown entre daños de colisión
+    [SerializeField] private float fallbackEnemyDamage = 5f; // Daño usado si el enemigo no tiene enemy_damage_component
 
     [Header("Knockback")]
     [SerializeField] private float knockbackStrength = 3f; // Fuerza del knockback al colisionar
@@ -73,7 +74,7 @@ public class collisionable_component : MonoBehaviour
         Collider2D[] nearbyColliders = Physics2D.OverlapCircleAll(transform.position, maxGrabDistance);
         GameObject nearestProp = null;
         float nearestDistance = maxGrabDistance;
-
+        Debug.Log("pressed");
         foreach (Collider2D hit in nearbyColliders)
         {
             if (!hit.CompareTag("Prop"))
@@ -119,13 +120,25 @@ public class collisionable_component : MonoBehaviour
     private void HandleEnemyCollision(GameObject enemy)
     {
         Debug.Log("Collision enemy");
+
+        float enemyDamage = fallbackEnemyDamage;
+        enemy_damage_component enemyDamageComponent = enemy.GetComponent<enemy_damage_component>();
+        if (enemyDamageComponent != null)
+        {
+            enemyDamage = enemyDamageComponent.Damage;
+        }
+        else if (showDebugInfo)
+        {
+            Debug.LogWarning($"El enemigo '{enemy.name}' no tiene enemy_damage_component. Usando fallback de {fallbackEnemyDamage}.");
+        }
+
         // Aplicar daño al jugador
         if (playerDamageComponent != null)
         {
-            playerDamageComponent.TakeDamage(damageFromEnemy);
+            playerDamageComponent.TakeDamage(enemyDamage);
             Debug.Log("Collision enemy take damage");
             if (showDebugInfo)
-                Debug.Log($"¡Golpeado por enemigo! Daño recibido: {damageFromEnemy}");
+                Debug.Log($"¡Golpeado por enemigo! Daño recibido: {enemyDamage}");
         }
 
         // Aplicar knockback
@@ -134,6 +147,7 @@ public class collisionable_component : MonoBehaviour
             Vector2 knockbackDirection = (transform.position - enemy.transform.position).normalized;
             playerRb.linearVelocity = knockbackDirection * knockbackStrength;
         }
+    }
     }
 
     /// <summary>
@@ -159,17 +173,4 @@ public class collisionable_component : MonoBehaviour
     /// <summary>
     /// Configura el daño que recibe del enemigo.
     /// </summary>
-    public void SetEnemyDamage(float newDamage)
-    {
-        damageFromEnemy = Mathf.Max(newDamage, 0f);
-    }
-
-    /// <summary>
-    /// Configura el daño que aplica a los props.
-    /// </summary>
-    public void SetPropDamage(float newDamage)
-    {
-        damageToProp = Mathf.Max(newDamage, 0f);
-    }
-
-}
+  
